@@ -520,10 +520,86 @@ public class CameraActivity extends Fragment {
         return;
       }
 
-      canTakePicture = false;
+		canTakePicture = false;
+		Camera.Parameters params = mCamera.getParameters();
 
-      /* new Thread() {
-        public void run() { */
+		Camera.Size size = getOptimalPictureSize(width, height, params.getPreviewSize(), params.getSupportedPictureSizes());
+		params.setPictureSize(size.width, size.height);
+		currentQuality = quality;
+		  
+		PictureCallback mPicture = new PictureCallback() {
+			@Override
+			public void onPictureTaken(byte[] data, Camera camera) {
+				Bitmap picture = BitmapFactory.decodeByteArray(data, 0, data.length);
+				Matrix matrix = new Matrix();
+
+				if (cameraCurrentlyLocked == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+					Log.d(TAG, "mirror y axis");
+					matrix.preScale(-1.0f, 1.0f);
+				}
+
+				matrix.postRotate(mPreview.getDisplayOrientation());
+
+				int pictureWidth = picture.getWidth();
+				int pictureHeight = picture.getHeight();
+				double pictureRatio = pictureWidth / (double) pictureHeight;
+
+				// rotate to screen orientation
+				try {
+					picture = Bitmap.createBitmap(picture, 0, 0, pictureWidth, pictureHeight, matrix, true);
+
+					pictureWidth = picture.getWidth();
+					pictureHeight = picture.getHeight();
+					pictureRatio = pictureWidth / (double) pictureHeight;
+				} catch (OutOfMemoryError oom) {
+					// You can run out of memory if the image is very large:
+					// http://simonmacdonald.blogspot.ca/2012/07/change-to-camera-code-in-phonegap-190.html
+					// If this happens, simply do not rotate the image and return it unmodified.
+					// If you do not catch the OutOfMemoryError, the Android app crashes.
+				}
+				
+				// crop to match view
+				try {
+					ImageView pictureView = (ImageView) view.findViewById(getResources().getIdentifier("picture_view", "id", appResourcesPackage));
+					double viewRatio = pictureView.getWidth() / (double) pictureView.getHeight();
+					if (pictureRatio != viewRatio) {
+						if (width / viewRatio > height) {
+							height = pictureHeight;
+							width = (int) Math.round(height * viewRatio);
+						} else {
+							width = pictureWidth;
+							height = (int) Math.round(width / viewRatio);
+						}
+
+						Bitmap work = Bitmap.createBitmap(width, height, picture.getConfig());
+						Canvas canvas = new Canvas(work);
+						canvas.drawBitmap(picture, (width - pictureWidth) / 2, (height - pictureHeight) / 2, null);
+						picture = work;
+
+						pictureWidth = width;
+						pictureHeight = height;
+						pictureRatio = width / (double) height;
+					}
+				} catch (OutOfMemoryError oom) {
+					// You can run out of memory if the image is very large:
+					// http://simonmacdonald.blogspot.ca/2012/07/change-to-camera-code-in-phonegap-190.html
+					// If this happens, simply do not crop the image and return it unmodified.
+					// If you do not catch the OutOfMemoryError, the Android app crashes.
+				}
+				
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); 
+				picture.compress(Bitmap.CompressFormat.JPEG, currentQuality, outputStream);
+				byte[] byteArray = byteArrayOutputStream.toByteArray();
+
+				String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+
+				eventListener.onPictureTaken(encodedImage);
+				canTakePicture = true;
+			}
+		}
+			/*
+      new Thread() {
+        public void run() {
           Camera.Parameters params = mCamera.getParameters();
 
           Camera.Size size = getOptimalPictureSize(width, height, params.getPreviewSize(), params.getSupportedPictureSizes());
@@ -541,8 +617,9 @@ public class CameraActivity extends Fragment {
 
           mCamera.setParameters(params);
           mCamera.takePicture(shutterCallback, null, jpegPictureCallback);
-        /* }
+        }
       }.start(); */
+		mCamera.takePicture(null, null, mPicture);
     } else {
       canTakePicture = true;
     }
