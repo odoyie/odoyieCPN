@@ -542,8 +542,8 @@ public class CameraActivity extends Fragment {
 
 				int pictureWidth = picture.getWidth();
 				int pictureHeight = picture.getHeight();
-				int w;
-				int h;
+				int w = width;
+				int h = height;
 				double pictureRatio = pictureWidth / (double) pictureHeight;
 
 				// rotate to screen orientation
