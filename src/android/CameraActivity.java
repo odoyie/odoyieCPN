@@ -596,7 +596,7 @@ public class CameraActivity extends Fragment {
 				eventListener.onPictureTaken(encodedImage);
 				canTakePicture = true;
 			}
-		}
+		};
 			/*
       new Thread() {
         public void run() {
