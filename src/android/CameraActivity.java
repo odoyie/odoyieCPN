@@ -522,8 +522,8 @@ public class CameraActivity extends Fragment {
 
       canTakePicture = false;
 
-      new Thread() {
-        public void run() {
+      /* new Thread() {
+        public void run() { */
           Camera.Parameters params = mCamera.getParameters();
 
           Camera.Size size = getOptimalPictureSize(width, height, params.getPreviewSize(), params.getSupportedPictureSizes());
@@ -541,8 +541,8 @@ public class CameraActivity extends Fragment {
 
           mCamera.setParameters(params);
           mCamera.takePicture(shutterCallback, null, jpegPictureCallback);
-        }
-      }.start();
+        /* }
+      }.start(); */
     } else {
       canTakePicture = true;
     }
