@@ -542,6 +542,8 @@ public class CameraActivity extends Fragment {
 
 				int pictureWidth = picture.getWidth();
 				int pictureHeight = picture.getHeight();
+				int w;
+				int h;
 				double pictureRatio = pictureWidth / (double) pictureHeight;
 
 				// rotate to screen orientation
@@ -563,22 +565,22 @@ public class CameraActivity extends Fragment {
 					ImageView pictureView = (ImageView) view.findViewById(getResources().getIdentifier("picture_view", "id", appResourcesPackage));
 					double viewRatio = pictureView.getWidth() / (double) pictureView.getHeight();
 					if (pictureRatio != viewRatio) {
-						if (width / viewRatio > height) {
-							height = pictureHeight;
-							width = (int) Math.round(height * viewRatio);
+						if (w / viewRatio > h) {
+							h = pictureHeight;
+							w = (int) Math.round(h * viewRatio);
 						} else {
-							width = pictureWidth;
-							height = (int) Math.round(width / viewRatio);
+							w = pictureWidth;
+							h = (int) Math.round(w / viewRatio);
 						}
 
-						Bitmap work = Bitmap.createBitmap(width, height, picture.getConfig());
+						Bitmap work = Bitmap.createBitmap(w, h, picture.getConfig());
 						Canvas canvas = new Canvas(work);
-						canvas.drawBitmap(picture, (width - pictureWidth) / 2, (height - pictureHeight) / 2, null);
+						canvas.drawBitmap(picture, (w - pictureWidth) / 2, (h - pictureHeight) / 2, null);
 						picture = work;
 
-						pictureWidth = width;
-						pictureHeight = height;
-						pictureRatio = width / (double) height;
+						pictureWidth = w;
+						pictureHeight = h;
+						pictureRatio = w / (double) h;
 					}
 				} catch (OutOfMemoryError oom) {
 					// You can run out of memory if the image is very large:
