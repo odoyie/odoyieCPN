@@ -590,7 +590,7 @@ public class CameraActivity extends Fragment {
 				}
 				
 				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); 
-				picture.compress(Bitmap.CompressFormat.JPEG, currentQuality, outputStream);
+				picture.compress(Bitmap.CompressFormat.JPEG, currentQuality, byteArrayOutputStream);
 				byte[] byteArray = byteArrayOutputStream.toByteArray();
 
 				String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
