@@ -35,7 +35,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.support.media.ExifInterface;
 
-import org.apache.cordova.Log;
+import org.apache.cordova.LOG;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
