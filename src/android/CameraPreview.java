@@ -298,15 +298,19 @@ public class CameraPreview extends CordovaPlugin implements CameraActivity.Camer
   }
 
   private boolean takePicture(int width, int height, int quality, CallbackContext callbackContext) {
-    /*if(this.hasView(callbackContext) == false){
-      return true;
+    //if(this.hasView(callbackContext) == false){
+    //  return true;
+    //}
+    if(fragment == null){
+      return false;
     }
 
     takePictureCallbackContext = callbackContext;
 
     fragment.takePicture(width, height, quality);
 
-    return true;*/
+    return true;
+    /*
 	if(fragment == null){
       return false;
     }
@@ -320,17 +324,17 @@ public class CameraPreview extends CordovaPlugin implements CameraActivity.Camer
       e.printStackTrace();
       return false;
     }
-    return true;
+    return true; */
 	
   }
 
   public void onPictureTaken(String originalPicture) {
     /*Log.d(TAG, "returning picture"); */
 
-    JSONArray data = new JSONArray();
-    data.put(originalPicture);
+    //JSONArray data = new JSONArray();
+    //data.put(originalPicture);
 
-    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, data);
+    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, originalPicture);
     pluginResult.setKeepCallback(true);
     takePictureCallbackContext.sendPluginResult(pluginResult);
 	
