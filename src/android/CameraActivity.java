@@ -453,8 +453,9 @@ public class CameraActivity extends Fragment {
       - has picture.width and picture.height closest to width and height
       - has the highest supported picture width and height up to 2 Megapixel if width == 0 || height == 0
     */
-    Camera.Size size = mCamera.new Size(width, height);
-
+    //Camera.Size size = mCamera.new Size(width, height);
+    
+    /* ari
     // convert to landscape if necessary
     if (size.width < size.height) {
       int temp = size.width;
@@ -508,7 +509,16 @@ public class CameraActivity extends Fragment {
           }
         }
       }
+    } */
+    
+    List<Camera.Size> sizes = custParameters.getSupportedPictureSizes();
+    Camera.Size size = sizes.get(0);
+    for(int i=0;i<sizes.size();i++)
+    {
+        if(sizes.get(i).width > size.width)
+            size = sizes.get(i);
     }
+    
     //Log.d(TAG, "CameraPreview optimalPictureSize " + size.width + 'x' + size.height);
     return size;
   }
@@ -529,13 +539,15 @@ public class CameraActivity extends Fragment {
 
 	  Camera.Size size = getOptimalPictureSize(width, height, params.getPreviewSize(), params.getSupportedPictureSizes());
 	  params.setPictureSize(size.width, size.height);
-	  currentQuality = quality;
+	  //currentQuality = quality;
+    currentQuality = 100;
 
 	  if(cameraCurrentlyLocked == Camera.CameraInfo.CAMERA_FACING_FRONT) {
 		// The image will be recompressed in the callback
-		params.setJpegQuality(99);
+		params.setJpegQuality(100);
 	  } else {
-		params.setJpegQuality(quality);
+		//params.setJpegQuality(quality);
+    params.setJpegQuality(100);
 	  }
 
 	  params.setRotation(mPreview.getDisplayOrientation());
