@@ -18,7 +18,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
-import android.util.//Log;
+import android.util.Log;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -35,7 +35,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.support.media.ExifInterface;
 
-import org.apache.cordova.//Log;
+import org.apache.cordova.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
