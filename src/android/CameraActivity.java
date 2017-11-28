@@ -539,15 +539,15 @@ public class CameraActivity extends Fragment {
 
 	  Camera.Size size = getOptimalPictureSize(width, height, params.getPreviewSize(), params.getSupportedPictureSizes());
 	  params.setPictureSize(size.width, size.height);
-	  //currentQuality = quality;
-    currentQuality = 100;
+	  currentQuality = quality;
+    //currentQuality = 100;
 
 	  if(cameraCurrentlyLocked == Camera.CameraInfo.CAMERA_FACING_FRONT) {
 		// The image will be recompressed in the callback
-		params.setJpegQuality(100);
+		params.setJpegQuality(99);
 	  } else {
 		//params.setJpegQuality(quality);
-    params.setJpegQuality(100);
+    params.setJpegQuality(currentQuality);
 	  }
 
 	  params.setRotation(mPreview.getDisplayOrientation());
