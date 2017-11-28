@@ -55,17 +55,17 @@ CameraPreview.show = function(onSuccess, onError) {
 };
 
 CameraPreview.takePicture = function(opts, onSuccess, onError) {
-    if (!opts) {
-        opts = {};
-    } else if (isFunction(opts)) {
-        onSuccess = opts;
-        opts = {};
-    }
+    //if (!opts) {
+    //    opts = {};
+    //} else if (isFunction(opts)) {
+    //    onSuccess = opts;
+    //    opts = {};
+    //}
 
-    if (!isFunction(onSuccess)) {
-        return false;
-    }
-
+    //if (!isFunction(onSuccess)) {
+    //    return false;
+    //}
+    opts = opts || {};
     opts.width = opts.width || 0;
     opts.height = opts.height || 0;
 
