@@ -513,10 +513,18 @@ public class CameraActivity extends Fragment {
     
     //List<Camera.Size> sizes = custParameters.getSupportedPictureSizes();
     Camera.Size size = supportedSizes.get(0);
-    for(int i=0;i<supportedSizes.size();i++)
-    {
-        if(supportedSizes.get(i).width > size.width)
-            size = supportedSizes.get(i);
+    if(width == 0 || height == 0) {
+      for(int i=0;i<supportedSizes.size();i++)
+      {
+          if(supportedSizes.get(i).width > size.width)
+              size = supportedSizes.get(i);
+      }
+    } else {
+      for(int i=0;i<supportedSizes.size();i++)
+      {
+          if(supportedSizes.get(i).width >= width && supportedSizes.get(i).height >= height)
+              size = supportedSizes.get(i);
+      }
     }
     
     //Log.d(TAG, "CameraPreview optimalPictureSize " + size.width + 'x' + size.height);
